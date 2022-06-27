@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     //Booleans
     private bool isDead = false;
+    private bool canMove = true;
 
     [Header("Knockback")]
     [SerializeField] private float knockbackForce;
@@ -45,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         //Pega o valor da horizontal do joystick e armazena na variavel hor caso não esteja morto
-        if (!isDead)
+        if (!isDead && canMove)
             hor = joystick.Horizontal;
         else
             hor = 0;
@@ -80,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         //Ao colidir com a tag Obstacle leva um pequeno empurrão
-        if (other.collider.CompareTag("Obstacle"))
+        if (other.collider.CompareTag("Obstacle") && !isDead)
         {
             Knockback(other.gameObject);
         }
@@ -100,14 +101,14 @@ public class PlayerMovement : MonoBehaviour
         //ele pode dar ao soltar os controles, então ao soltar ele faz o rigidbody ficar completamente em 0, parando instantaneamente
         if (rb.velocity.x != 0 && hor == 0 && isGrounded)
         {
-            rb.velocity = Vector3.zero;
+            rb.velocity = new Vector2(0, rb.velocity.y);
         }
     }
 
     //Os tipos de pulo que são chamados nos botões da UI
     public void Jump()
     {
-        if (isGrounded && !isDead)
+        if (isGrounded && !isDead && canMove)
         {
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
@@ -115,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void LowJump()
     {
-        if (isGrounded && !isDead)
+        if (isGrounded && !isDead && canMove)
         {
             rb.AddForce(Vector2.up * (jumpForce / 1.5f), ForceMode2D.Impulse);
         }
@@ -147,6 +148,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    //Vira o sprite do Player
     private void Flip()
     {
         if (isFacingRight)
@@ -157,6 +159,13 @@ public class PlayerMovement : MonoBehaviour
         {
             visuals.transform.localScale = new Vector3(-1, 1, 1);
         }
+    }
+
+    //Desabilita a movimentação setando o boolean canMove para falso e zera toda a velocity em X
+    public void DisableMovement()
+    {
+        canMove = false;
+        rb.velocity = new Vector2(0, rb.velocity.y);
     }
 
     public void Knockback(GameObject other)

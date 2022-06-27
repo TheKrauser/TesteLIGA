@@ -8,6 +8,9 @@ public class StageManager : MonoBehaviour
     private int damageTaken = 0;
     private string time = "";
 
+    //Variavel para pegar a classe do Timer e criar uma função para pausar
+    [SerializeField] private Timer timer;
+
     //Singleton para acessar em outras classes, com set privado para não ser modificado por elas
     public static StageManager Instance { get; private set; }
 
@@ -34,6 +37,11 @@ public class StageManager : MonoBehaviour
     public string GetTime()
     {
         return time;
+    }
+
+    public void StopTimer()
+    {
+        timer.StopTimer();
     }
 
     public void BackToMenu(int index)

@@ -39,7 +39,7 @@ public class PlayerHealth : MonoBehaviour
 
             if (health <= 0)
             {
-                Analytics.CustomEvent("PlayerDead");
+                StageManager.Instance.StopTimer();
                 InterstitialAD.Instance.ShowAd();
                 player.SetDead();
             }

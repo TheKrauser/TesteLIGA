@@ -9,18 +9,24 @@ public class Timer : MonoBehaviour
     private float currentTimer;
     private float secondsHandler;
 
+    private bool isCounting = true;
+
     public event EventHandler OnSecondPassed;
 
     private void Start()
     {
+        isCounting = true;
         currentTimer = 0;
     }
 
     private void Update()
     {
-        //Incrementa o Timer pelo Time.deltaTime
-        currentTimer += Time.deltaTime;
-        secondsHandler += Time.deltaTime;
+        if (isCounting)
+        {
+            //Incrementa o Timer pelo Time.deltaTime
+            currentTimer += Time.deltaTime;
+            secondsHandler += Time.deltaTime;
+        }
 
         //Como os milésimos de segundos não entram na UI, eu pego apenas os segundos
         if (secondsHandler > 1f)
@@ -29,6 +35,12 @@ public class Timer : MonoBehaviour
             OnSecondPassed?.Invoke(this, EventArgs.Empty);
             secondsHandler -= 1;
         }
+    }
+
+    //Para de contar
+    public void StopTimer()
+    {
+        isCounting = false;
     }
 
     public float GetCurrentTime()

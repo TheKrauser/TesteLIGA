@@ -22,9 +22,12 @@ public class LoadingManager : MonoBehaviour
     //Os Rects de cada parte das barras pretas e do centro da tela
     [SerializeField] private RectTransform center, up, down, left, right;
 
+    //Para saber se está ou não carregando uma cena
+    private bool isLoading = false;
+
     //Variavel da classe SceneManagement que cuida do % que a nova cena já foi carregado
     private AsyncOperation operation;
-    
+
     //Singleton
     public static LoadingManager Instance;
 
@@ -53,16 +56,21 @@ public class LoadingManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            LoadScene((int)SceneIndexes.Indexes.MENU);
-        }
+
     }
 
+    //Manda um evento de qual cena foi carregada para o Analytics
     public void LoadScene(int i)
     {
-        StartCoroutine(BeginLoad(i));
-        Analytics.CustomEvent("SceneLoaded: " + SceneIndexes.GetSceneByInt(i));
+        if (!isLoading)
+        {
+            StartCoroutine(BeginLoad(i));
+            Analytics.CustomEvent("SceneLoaded: " + SceneIndexes.GetSceneByInt(i));
+        }
+        else
+        {
+            return;
+        }
     }
 
     //Valores da largura e altura que o Canvas está usando como base para desenhar a UI na tela
@@ -70,11 +78,13 @@ public class LoadingManager : MonoBehaviour
     private static float largura = 1600;
 
     //Valores de posicionamento de cada barra preta na hora da transição
-    private float x = largura/4;
-    private float y = altura/4;
+    private float x = largura / 4;
+    private float y = altura / 4;
 
     private IEnumerator BeginLoad(int sceneInt)
     {
+        isLoading = true;
+        
         //Trava tudo que se move na base de tempo no jogo setando o timeScale em 0
         //Assim dando a sensação de que está pausado
         Time.timeScale = 0f;
@@ -116,6 +126,8 @@ public class LoadingManager : MonoBehaviour
         {
             //Volta o timeScale para 1
             Time.timeScale = 1f;
+
+            isLoading = false;
         });
     }
 }

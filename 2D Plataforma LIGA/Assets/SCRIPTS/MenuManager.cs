@@ -38,11 +38,13 @@ public class MenuManager : MonoBehaviour
         }
     }
 
+    //Carrega a cena referente ao número especificado, vai carregar baseado no Index
     public void StageSelect(int stageNumber)
     {
         LoadingManager.Instance.LoadScene(stageNumber);
     }
 
+    //Fecha a aplicação
     public void Quit()
     {
         Application.Quit();

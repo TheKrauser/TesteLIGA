@@ -33,24 +33,25 @@ public class TimerUI : MonoBehaviour
     //Função para converter o timer total da fase em (horas)h(minutos)m(segundos)s para encaixar na UI
     private string ConvertToHours(float toConvert)
     {
-        float horas, minutos, segundos;
-        float resto;
+        int horas, minutos, segundos;
+        int resto;
 
+        //Conversão para int pra que não ocorra de arredondar os números float
         if (toConvert < 3600)
         {
             horas = 0;
-            resto = toConvert;
+            resto = (int)toConvert;
         }
         else
         {
-            horas = toConvert / 3600;
-            resto = toConvert % 3600;
+            horas = (int)toConvert / 3600;
+            resto = (int)toConvert % 3600;
         }
 
-        if (toConvert < 60)
+        if (resto < 60)
         {
             minutos = 0;
-            resto = toConvert;
+            //resto = toConvert;
         }
         else
         {
@@ -59,7 +60,7 @@ public class TimerUI : MonoBehaviour
         }
 
         segundos = resto;
-        
-        return horas.ToString("F0") + "h" + minutos.ToString("F0") + "m" + segundos.ToString("F0") + "s";;
+
+        return horas.ToString() + "h" + minutos.ToString() + "m" + segundos.ToString() + "s"; ;
     }
 }

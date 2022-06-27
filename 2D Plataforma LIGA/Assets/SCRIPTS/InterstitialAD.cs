@@ -1,16 +1,19 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
 
+//Código da documentação da Unity referente ao Ad Interstitial (o Ad simples que aparece na tela e é pulável)
 public class InterstitialAD : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsShowListener
 {
     [SerializeField] string _androidAdUnitId = "Interstitial_Android";
     [SerializeField] string _iOsAdUnitId = "Interstitial_iOS";
     string _adUnitId;
 
+    //Cria um Singleton para chamar em qualquer classe
     public static InterstitialAD Instance { get; private set; }
 
     void Awake()
     {
+        //Não destrói pois é inicializado na cena inicial (Managers)
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
@@ -20,6 +23,7 @@ public class InterstitialAD : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
             : _androidAdUnitId;
     }
 
+    //Carrega o Ad inicialmente para poder mostrá-lo na tela quando necessário
     private void Start()
     {
         LoadAd();

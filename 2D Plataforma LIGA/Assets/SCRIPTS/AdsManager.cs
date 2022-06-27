@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.Advertisements;
 
+//Código da documentação da Unity referente aos Ads
 public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
 {
     [SerializeField] string _androidGameId;
@@ -8,6 +9,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsInitializationListener
     [SerializeField] bool _testMode = true;
     private string _gameId;
 
+    //Inicializa os Ads para a plataforma em que a build foi feita
     void Awake()
     {
         InitializeAds();

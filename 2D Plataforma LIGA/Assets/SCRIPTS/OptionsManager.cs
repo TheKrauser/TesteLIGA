@@ -5,6 +5,9 @@ using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
 
+//Script não usado
+//Script não usado
+//Script não usado
 public class OptionsManager : MonoBehaviour
 {
     [SerializeField] AudioMixer master;
@@ -25,11 +28,6 @@ public class OptionsManager : MonoBehaviour
         sliderSFX.value = PlayerPrefs.GetFloat("_SFX", 0.75f);
         var v3 = Mathf.Log10(sliderSFX.value) * 20;
         sfx.audioMixer.SetFloat("SFXVolume", v3);
-    }
-
-    private void Update()
-    {
-
     }
 
     public void SetVolumeMaster(float volume)

@@ -15,6 +15,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
+//Código não usado
+//Código não usado
+//Código não usado
+
 public partial class @Controls : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
